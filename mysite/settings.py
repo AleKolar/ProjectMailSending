@@ -26,7 +26,7 @@ SECRET_KEY = 'y=6+-y1gc%co$%_0v1su3idax))#n5nxip$-8ki!z1kqleg-0&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 SITE_ID = 1
 
@@ -50,12 +50,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'django.contrib.flatpages',
     'app_send_mail',
 
-    # 'allauth.socialaccount.providers.google',
-    # 'allauth',
-    # 'allauth.account',
-    # 'allauth.social account',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -68,7 +66,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
-    'allauth.account.middleware.AccountMiddleware',
+
 ]
 
 ROOT_URLCONF = 'mysite.urls'
@@ -96,7 +94,7 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-WSGI_APPLICATION = 'my_site.wsgi.application'
+WSGI_APPLICATION = 'mysite.wsgi.application'
 
 
 # Database

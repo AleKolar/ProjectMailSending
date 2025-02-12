@@ -18,9 +18,12 @@ from django.db import models
 
 class Subscriber(models.Model):
     email = models.EmailField(unique=True)
+    first_name = models.CharField(max_length=50, blank=True)
+    last_name = models.CharField(max_length=50, blank=True)
+    birthday = models.DateField(null=True, blank=True)
     subscribed_at = models.DateTimeField(auto_now_add=True)
 
-    def __unicode__(self):  # ??? Python 2.7
+    def __unicode__(self):
         return self.email
 
 

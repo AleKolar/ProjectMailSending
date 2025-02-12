@@ -18,8 +18,9 @@ from sys import path
 from django.conf.urls import url, include
 from django.contrib import admin
 
+from app_send_mail import views
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-
-
+    url(r'^create_newsletter/$', views.create_newsletter, name='create_newsletter'),
 ]
