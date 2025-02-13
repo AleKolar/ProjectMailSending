@@ -1,27 +1,28 @@
 html
-<!-- Модальное окно для создания рассылки -->  
-<div class="modal fade" id="newsletterModal" tabindex="-1" role="dialog" aria-labelledby="newsletterModalLabel" aria-hidden="true">  
-    <div class="modal-dialog" role="document">  
-        <div class="modal-content">  
-            <div class="modal-header">  
-                <h5 class="modal-title" id="newsletterModalLabel">Создать рассылку</h5>  
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">  
-                    <span aria-hidden="true">&times;</span>  
-                </button>  
-            </div>  
-            <div class="modal-body">  
-                <form id="newsletterForm">  
-                    <div class="form-group">  
-                        <label for="subject">Тема</label>  
-                        <input type="text" class="form-control" id="subject" required>  
-                    </div>  
-                    <div class="form-group">  
-                        <label for="content">Содержимое (HTML)</label>  
-                        <textarea class="form-control" id="content" rows="5" required></textarea>  
-                    </div>  
-                    <button type="submit" class="btn btn-primary">Отправить</button>  
-                </form>  
-            </div>  
+<!-- Модальное окно для создания рассылки -->
+<div class="modal" id="createNewsletterModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="createNewsletterForm">
+                <div class="modal-header">
+                    <h5 class="modal-title">Создать рассылку</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="subject">Тема:</label>
+                        <input type="text" class="form-control" id="subject" name="subject" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Сообщение:</label>
+                        <textarea class="form-control" id="message" name="message" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Отправить</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                </div>
+            </form>
         </div>  
     </div>  
 </div>

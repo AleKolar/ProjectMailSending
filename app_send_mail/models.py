@@ -1,3 +1,7 @@
+# -*- encoding: utf-8 -*-
+
+# -*- coding: utf-8 -*-
+
 #!/usr/bin/python
 # -*- coding: latin-1 -*-
 import os, sys
@@ -12,9 +16,9 @@ import os, sys
 # -*- coding: ascii -*-
 import os, sys
 
+
 from django.contrib.auth.hashers import make_password
 from django.db import models
-
 
 
 class Subscriber(models.Model):
@@ -35,13 +39,12 @@ class Subscriber(models.Model):
         from django.contrib.auth.hashers import check_password
         return check_password(raw_password, self.password)
 
-
 class Newsletter(models.Model):
     subject = models.CharField(max_length=200)
     body = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def __unicode__(self):  # ??? Python 2.7
+    def __unicode__(self):
         return self.subject
 
 

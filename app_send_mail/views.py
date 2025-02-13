@@ -1,16 +1,32 @@
-from django.shortcuts import render
-from django.http import JsonResponse
+# -*- encoding: utf-8 -*-
+
+# -*- coding: utf-8 -*-
+
+#!/usr/bin/python
+# -*- coding: latin-1 -*-
+import os, sys
+
+
+#!/usr/bin/python
+# -*- coding: iso-8859-15 -*-
+import os, sys
+
+
+#!/usr/bin/python
+# -*- coding: ascii -*-
+import os, sys
+
+from django.http import JsonResponse, HttpResponseRedirect
 from django.core.mail import EmailMessage
 from django.conf import settings
 from django.template.loader import render_to_string
-from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate
-from django.contrib.auth.forms import UserCreationForm
+from django.core.mail import send_mail
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from rest_framework import viewsets
 
 from app_send_mail.forms import NewsletterForm, SubscriberRegistrationForm
-from app_send_mail.models import SentNewsletter, Newsletter, Subscriber
+from app_send_mail.models import SentNewsletter, Newsletter
 from app_send_mail.serializers import SubscriberSerializer
 
 
@@ -26,17 +42,23 @@ def register(request):
             return redirect('home')
     return render(request, 'register.html', {'form': form})
 
+
+from django.shortcuts import render, redirect
+from .models import Subscriber
+
+
 def login_view(request):
     if request.method == 'POST':
-        email = request.POST['email']
-        password = request.POST['password']
+        email = request.POST.get('email')
+        password = request.POST.get('password')
         try:
             subscriber = Subscriber.objects.get(email=email)
             if subscriber.check_password(password):
-                login(request, subscriber)
-                return redirect('home')
+                request.session['subscriber_id'] = subscriber.id
+                return render(request, 'dashboard.html')
         except Subscriber.DoesNotExist:
-            pass
+            return render(request, 'login.html', {'error': 'Неправильный email или пароль'})
+
     return render(request, 'login.html')
 
 @login_required(login_url='login')
@@ -73,6 +95,21 @@ def create_newsletter(request):
     else:
         form = NewsletterForm()
         return render(request, 'newsletter.html', {'form': form})
+
+
+@csrf_exempt
+def send_newsletter(request):
+    if request.method == 'POST':
+        subject = request.POST.get('subject')
+        message = request.POST.get('message')
+
+        subscribers = Subscriber.objects.all()
+        email_list = [sub.email for sub in subscribers]
+
+        send_mail(subject, message, 'from@example.com', email_list)
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({'status': 'error'}, status=400)
+
 
 class SubscriberViewSet(viewsets.ModelViewSet):
     queryset = Subscriber.objects.all()

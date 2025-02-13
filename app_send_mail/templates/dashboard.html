@@ -1,0 +1,13 @@
+{% extends 'base.html' %}  
+
+{% block title %}Панель управления - Рассылки{% endblock %}  
+
+{% block content %}  
+<h1>Панель управления рассылками</h1>  
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createNewsletterModal">  
+    Создать новую рассылку  
+</button>  
+
+<!-- Подключаем модальное окно для создания рассылки -->  
+{% include 'newsletter.html' %}  
+{% endblock %}  

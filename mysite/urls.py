@@ -34,4 +34,6 @@ urlpatterns = [
     url(r'^home/', include(router.urls)),
 
     url(r'^api/', include(router.urls)),
+
+    url(r'^login/newsletter/$', views.create_newsletter, name='newsletter'),
 ]
