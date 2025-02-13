@@ -8,7 +8,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 
-from app_send_mail.forms import NewsletterForm
+from app_send_mail.forms import NewsletterForm, SubscriberRegistrationForm
 from app_send_mail.models import SentNewsletter, Newsletter, Subscriber
 
 
@@ -16,13 +16,12 @@ def home(request):
     return render(request, 'home.html')
 
 def register(request):
+    form = SubscriberRegistrationForm()
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = SubscriberRegistrationForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            login(request, user)
+            form.save()
             return redirect('home')
-        form = UserCreationForm()
     return render(request, 'register.html', {'form': form})
 
 def login_view(request):
