@@ -17,12 +17,21 @@ from sys import path
 
 from django.conf.urls import url, include
 from django.contrib import admin
+from rest_framework.routers import DefaultRouter
 
 from app_send_mail import views
+from app_send_mail.views import SubscriberViewSet
+
+router = DefaultRouter()
+router.register(r'subscribers', SubscriberViewSet)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.home, name='home'),
     url(r'^register/$', views.register, name='register'),
     url(r'^login/$', views.login_view, name='login'),
+
+    url(r'^home/', include(router.urls)),
+
+    url(r'^api/', include(router.urls)),
 ]

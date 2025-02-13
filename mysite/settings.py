@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.flatpages',
     'app_send_mail',
+    'rest_framework',
 
 ]
 

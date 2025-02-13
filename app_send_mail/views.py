@@ -7,9 +7,11 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
+from rest_framework import viewsets
 
 from app_send_mail.forms import NewsletterForm, SubscriberRegistrationForm
 from app_send_mail.models import SentNewsletter, Newsletter, Subscriber
+from app_send_mail.serializers import SubscriberSerializer
 
 
 def home(request):
@@ -26,12 +28,15 @@ def register(request):
 
 def login_view(request):
     if request.method == 'POST':
-        username = request.POST['username']
+        email = request.POST['email']
         password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect('home')
+        try:
+            subscriber = Subscriber.objects.get(email=email)
+            if subscriber.check_password(password):
+                login(request, subscriber)
+                return redirect('home')
+        except Subscriber.DoesNotExist:
+            pass
     return render(request, 'login.html')
 
 @login_required(login_url='login')
@@ -69,3 +74,6 @@ def create_newsletter(request):
         form = NewsletterForm()
         return render(request, 'newsletter.html', {'form': form})
 
+class SubscriberViewSet(viewsets.ModelViewSet):
+    queryset = Subscriber.objects.all()
+    serializer_class = SubscriberSerializer
