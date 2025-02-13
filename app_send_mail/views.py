@@ -3,11 +3,39 @@ from django.http import JsonResponse
 from django.core.mail import EmailMessage
 from django.conf import settings
 from django.template.loader import render_to_string
+from django.shortcuts import render, redirect
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
 
 from app_send_mail.forms import NewsletterForm
 from app_send_mail.models import SentNewsletter, Newsletter, Subscriber
 
 
+def home(request):
+    return render(request, 'home.html')
+
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('home')
+        form = UserCreationForm()
+    return render(request, 'register.html', {'form': form})
+
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+    return render(request, 'login.html')
+
+@login_required(login_url='login')
 def create_newsletter(request):
     if request.method == 'POST':
         form = NewsletterForm(request.POST)
@@ -21,7 +49,7 @@ def create_newsletter(request):
             subscribers = Subscriber.objects.all()
             for subscriber in subscribers:
                 try:
-                    html_content = render_to_string('newsletter_template.html', {
+                    html_content = render_to_string('newsletter.html', {
                         'subscriber': subscriber,
                         'subject': subject,
                         'body': body
@@ -40,5 +68,5 @@ def create_newsletter(request):
             return JsonResponse({'status': 'error', 'errors': form.errors})
     else:
         form = NewsletterForm()
-        return render(request, 'newsletter_form.html', {'form': form})
+        return render(request, 'newsletter.html', {'form': form})
 

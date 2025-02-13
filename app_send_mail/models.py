@@ -29,7 +29,7 @@ class Subscriber(models.Model):
 
 class Newsletter(models.Model):
     subject = models.CharField(max_length=200)
-    body = models.TextField()  # ????? ????? HTML ?????
+    body = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):  # ??? Python 2.7
@@ -42,5 +42,5 @@ class SentNewsletter(models.Model):
     sent_at = models.DateTimeField(auto_now_add=True)
     success = models.BooleanField(default=False)
 
-    def __unicode__(self):  # ??? Python 2.7
+    def __unicode__(self):
         return u"{} - {} - {}".format(self.newsletter.subject, self.subscriber.email, self.success)
