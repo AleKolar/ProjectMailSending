@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+ {% block title %}Фильтр подписчиков{% endblock %}
+ {% block content %}
+     <h1 >Фильтр подписчиков</h1 >
+     <form method="get" action="{% url 'filter_subscribers' %}">
+         <label for="first_name">Имя:</label>
+         <input type="text" name="first_name" id="first_name" value="{{ first_name }}">
+
+         <label for="last_name">Фамилия:</label>
+         <input type="text" name="last_name" id="last_name" value="{{ last_name }}">
+
+         <label for="birthday_day">День рождения (день):</label>
+         <input type="number" name="birthday_day" id="birthday_day" min="1" max="31" value="{{ birthday_day }}">
+
+         <button type="submit">Фильтровать</button>
+     </form>
+
+     <!-- Кнопка сброса -->
+     <a href="{% url 'filter_subscribers' %}">
+         <button type="button">Сброс</button>
+     </a>
+
+     {% if emails %}
+         <h2 >Подписчики:</h2 >
+         <ul>
+             {% for email in emails %}
+                 <li>{{ email }}</li>
+             {% endfor %}
+         </ul>
+     {% endif %}
+ {% endblock %}
+
+
+
+
+
+
+
+

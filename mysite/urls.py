@@ -13,7 +13,6 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from sys import path
 
 from django.conf.urls import url, include
 from django.contrib import admin
@@ -36,4 +35,9 @@ urlpatterns = [
     url(r'^api/', include(router.urls)),
 
     url(r'^login/newsletter/$', views.create_newsletter, name='newsletter'),
+
+    url(r'^newsletter/$', views.create_newsletter, name='newsletter'),
+
+    url(r'^filter/$', views.filter_subscribers, name='filter_subscribers'),
+
 ]

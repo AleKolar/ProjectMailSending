@@ -97,6 +97,37 @@ def create_newsletter(request):
         return render(request, 'newsletter.html', {'form': form})
 
 
+
+def filter_subscribers(request):
+    if request.method == 'GET':
+
+        first_name = request.GET.get('first_name')
+        last_name = request.GET.get('last_name')
+        birthday_day = request.GET.get('birthday_day')
+        birthday_month = request.GET.get('birthday_month')
+
+        kwargs = {}
+        if first_name:
+            kwargs['first_name'] = first_name
+        if last_name:
+            kwargs['last_name'] = last_name
+        if birthday_day:
+            kwargs['birthday__day'] = birthday_day
+        if birthday_month:
+            kwargs['birthday__month'] = birthday_month
+
+        subscribers_filter = Subscriber.objects.filter(**kwargs)
+
+        email_lst = [subscriber.email for subscriber in subscribers_filter]
+        context = {
+            'emails': email_lst,
+            'first_name': first_name,
+            'last_name': last_name,
+            'birthday_day': birthday_day,}
+
+        return render(request, 'filter_subscribers.html', context)
+
+
 @csrf_exempt
 def send_newsletter(request):
     if request.method == 'POST':
