@@ -1,12 +1,7 @@
-<!-- login.html -->
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Вход</title>
-</head>
-<body>
-    <h1>Вход</h1>
+{% extends "base.html" %}
+
+{% block content %}
+    <h1 >Вход</h1 >
     <form method="post">
         {% csrf_token %}
         <label>Email:</label>
@@ -18,5 +13,5 @@
         <button type="submit">Войти</button>
     </form>
     <a href="{% url 'register' %}">Нет аккаунта? Зарегистрироваться</a>
-</body>
-</html>
+
+{% endblock %}

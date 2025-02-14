@@ -4,7 +4,7 @@ from .models import Subscriber, Newsletter, SentNewsletter
 @admin.register(Subscriber)
 class SubscriberAdmin(admin.ModelAdmin):
     list_display = ('email', 'first_name', 'last_name', 'birthday', 'subscribed_at')
-    search_fields = ('email',)
+    search_fields = ('email','first_name', 'last_name', 'birthday', 'subscribed_at')
 
 @admin.register(Newsletter)
 class NewsletterAdmin(admin.ModelAdmin):

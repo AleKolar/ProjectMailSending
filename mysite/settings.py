@@ -15,7 +15,6 @@ import os
 from decouple import config
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-#BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -26,7 +25,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+#DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
@@ -161,7 +161,6 @@ DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 20
 
 APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
@@ -172,9 +171,9 @@ CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672//'
 
 CELERY_RESULT_BACKEND = 'rpc://'
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': os.path.join(BASE_DIR, 'cache_files'),
-    }
-}
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+#         'LOCATION': os.path.join(BASE_DIR, 'cache_files'),
+#     }
+# }

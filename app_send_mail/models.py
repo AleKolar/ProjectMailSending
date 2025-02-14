@@ -17,9 +17,8 @@ import os, sys
 import os, sys
 
 
-from django.contrib.auth.hashers import make_password
 from django.db import models
-
+from django.contrib.auth.hashers import make_password, check_password
 
 class Subscriber(models.Model):
     email = models.EmailField(unique=True)
@@ -33,10 +32,11 @@ class Subscriber(models.Model):
         return self.email
 
     def set_password(self, raw_password):
+        """Хэширует и устанавливает пароль."""
         self.password = make_password(raw_password)
 
     def check_password(self, raw_password):
-        from django.contrib.auth.hashers import check_password
+        """Проверяет, соответствует ли введенный пароль хэшированному."""
         return check_password(raw_password, self.password)
 
 class Newsletter(models.Model):

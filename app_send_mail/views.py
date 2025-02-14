@@ -67,11 +67,12 @@ def create_newsletter(request):
         form = NewsletterForm(request.POST)
         if form.is_valid():
             subject = form.cleaned_data['subject']
-            body = form.cleaned_data['body']
+            body = form.cleaned_data['message']  # Это должно быть 'message'
 
-
+            # Создание новостной рассылки
             newsletter = Newsletter.objects.create(subject=subject, body=body)
 
+            # Отправка писем
             subscribers = Subscriber.objects.all()
             for subscriber in subscribers:
                 try:
@@ -96,8 +97,6 @@ def create_newsletter(request):
         form = NewsletterForm()
         return render(request, 'newsletter.html', {'form': form})
 
-
-
 def filter_subscribers(request):
     if request.method == 'GET':
 
@@ -105,6 +104,7 @@ def filter_subscribers(request):
         last_name = request.GET.get('last_name')
         birthday_day = request.GET.get('birthday_day')
         birthday_month = request.GET.get('birthday_month')
+        birthday_year = request.GET.get('birthday_year')
 
         kwargs = {}
         if first_name:
@@ -115,31 +115,43 @@ def filter_subscribers(request):
             kwargs['birthday__day'] = birthday_day
         if birthday_month:
             kwargs['birthday__month'] = birthday_month
+        if birthday_year:
+            kwargs['birthday__year'] = birthday_year
 
         subscribers_filter = Subscriber.objects.filter(**kwargs)
 
         email_lst = [subscriber.email for subscriber in subscribers_filter]
+        first_name_lst = [subscriber.first_name for subscriber in subscribers_filter]
+        last_name_lst = [subscriber.last_name for subscriber in subscribers_filter]
+        birthday_day_lst = [subscriber.birthday.day for subscriber in subscribers_filter]
+        birthday_month_lst = [subscriber.birthday.month for subscriber in subscribers_filter]
+        birthday_year_lst = [subscriber.birthday.year for subscriber in subscribers_filter]
+
         context = {
             'emails': email_lst,
-            'first_name': first_name,
-            'last_name': last_name,
-            'birthday_day': birthday_day,}
+            'first_names': first_name_lst,
+            'last_names': last_name_lst,
+            'birthday_days': birthday_day_lst,
+            'birthday_months': birthday_month_lst,
+            'birthday_years': birthday_year_lst
+        }
 
         return render(request, 'filter_subscribers.html', context)
 
 
-@csrf_exempt
-def send_newsletter(request):
-    if request.method == 'POST':
-        subject = request.POST.get('subject')
-        message = request.POST.get('message')
 
-        subscribers = Subscriber.objects.all()
-        email_list = [sub.email for sub in subscribers]
-
-        send_mail(subject, message, 'from@example.com', email_list)
-        return JsonResponse({'status': 'success'})
-    return JsonResponse({'status': 'error'}, status=400)
+# @csrf_exempt
+# def send_newsletter(request):
+#     if request.method == 'POST':
+#         subject = request.POST.get('subject')
+#         message = request.POST.get('message')
+#
+#         subscribers = Subscriber.objects.all()
+#         email_list = [sub.email for sub in subscribers]
+#
+#         send_mail(subject, message, 'gefest-173@yandex.ru', email_list)
+#         return JsonResponse({'status': 'success'})
+#     return JsonResponse({'status': 'error'}, status=400)
 
 
 class SubscriberViewSet(viewsets.ModelViewSet):

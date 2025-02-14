@@ -19,10 +19,12 @@ from django.contrib import admin
 from rest_framework.routers import DefaultRouter
 
 from app_send_mail import views
+
 from app_send_mail.views import SubscriberViewSet
 
 router = DefaultRouter()
 router.register(r'subscribers', SubscriberViewSet)
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -36,7 +38,7 @@ urlpatterns = [
 
     url(r'^login/newsletter/$', views.create_newsletter, name='newsletter'),
 
-    url(r'^newsletter/$', views.create_newsletter, name='newsletter'),
+    url(r'^create_newsletter/$', views.create_newsletter, name='newsletter'),
 
     url(r'^filter/$', views.filter_subscribers, name='filter_subscribers'),
 
