@@ -1,7 +1,6 @@
+<!DOCTYPE html>
 {% extends "base.html" %}
-
 {% block title %}Фильтр подписчиков{% endblock %}
-
 {% block content %}
     <h1>Фильтр подписчиков</h1>
     <form method="get" action="{% url 'filter_subscribers' %}">
@@ -30,16 +29,15 @@
     </a>
 
     {% if emails %}
-        <h2>Подписчики:</h2>
-        <ul>
-            {% for email in emails %}
-                <li>{{ email }}</li>
-            {% endfor %}
-        </ul>
-
+    <h2 class="mt-4">Подписчики:</h2>
+    <ul>
+        {% for email in emails %}
+            <li>{{ email }}</li>
+        {% endfor %}
+    </ul>
 
     {% else %}
-        <p>Подписчики не найдены.</p>
+        <p class="text-left mt-3">Подписчики не найдены.</p>
     {% endif %}
 
 {% endblock %}

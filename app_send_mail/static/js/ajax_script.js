@@ -27,15 +27,15 @@ $(document).ready(function() {
     }
 
     // Обработчик изменения чекбокса
-    document.getElementById('sendToAll').addEventListener('change', function() {
-        const individualFields = document.getElementById('individualFields');
-        const sendToAllValue = document.getElementById('sendToAllValue');
-        if (this.checked) {
-            individualFields.style.display = 'none';
-            sendToAllValue.value = 'true'; // Устанавливаем значение для отправки всем
+    $('#sendToAll').change(function() {
+        const individualFields = $('#individualFields');
+        const sendToAllValue = $('#sendToAllValue');
+        if ($(this).is(':checked')) {
+            individualFields.hide();
+            sendToAllValue.val('true'); // Устанавливаем значение для отправки всем
         } else {
-            individualFields.style.display = 'block';
-            sendToAllValue.value = 'false'; // Устанавливаем значение для отправки фильтрованным
+            individualFields.show();
+            sendToAllValue.val('false'); // Устанавливаем значение для отправки фильтрованным
         }
     });
 
@@ -48,11 +48,11 @@ $(document).ready(function() {
             url: '/create_newsletter/', // URL для отправки
             data: $(this).serialize(), // Сериализуем данные формы
             success: function(response) {
-                alert('Рассылка успешно отправлена!');
+                alert('Рассылка успешно создана и будет отправлена!');
                 $('#createNewsletterModal').modal('hide'); // Закрываем модальное окно
             },
             error: function(response) {
-                alert('Ошибка при отправке рассылки.');
+                alert('Ошибка при создании рассылки.');
             }
         });
     });

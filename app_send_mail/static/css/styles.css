@@ -1,0 +1,46 @@
+/* styles.css */
+
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3 {
+  color: #333; /* Темно-серый заголовок */
+}
+
+.container {
+  max-width: 960px; /* Максимальная ширина контейнера */
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Стили для формы (пример) */
+form {
+  width: 50%;
+  margin: 20px auto;
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  box-sizing: border-box; /* Учитываем рамку и отступы */
+}
+
+button[type="submit"] {
+  background-color: #4CAF50; /* Зеленый */
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  cursor: pointer;
+}
+
+/* Дополнительные стили по необходимости */
+
+.hidden {
+    display: none;
+}

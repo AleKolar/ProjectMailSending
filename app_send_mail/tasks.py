@@ -27,3 +27,23 @@ def send_newsletter_task(newsletter_id):
         except Exception as e:
             SentNewsletter.objects.create(newsletter=newsletter, subscriber=subscriber, success=False)
             print("Error sending to {subscriber.email}: {e}")
+
+@shared_task
+def send_newsletter_to_all(subscriber_ids, subject, body):
+    subscribers = Subscriber.objects.filter(id__in=subscriber_ids)
+
+    for subscriber in subscribers:
+        try:
+            html_content = render_to_string('newsletter.html', {
+                'subscriber': subscriber,
+                'subject': subject,
+                'body': body
+            })
+            msg = EmailMessage(subject, html_content, settings.DEFAULT_FROM_EMAIL, [subscriber.email])
+            msg.content_subtype = "html"
+            msg.send()
+
+            SentNewsletter.objects.create(newsletter=Newsletter.objects.get(subject=subject, body=body), subscriber=subscriber, success=True)
+        except Exception as e:
+            SentNewsletter.objects.create(newsletter=Newsletter.objects.get(subject=subject, body=body), subscriber=subscriber, success=False)
+            print("Error sending to {subscriber.email}: {e}")

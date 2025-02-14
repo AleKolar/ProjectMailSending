@@ -40,6 +40,6 @@ urlpatterns = [
 
     url(r'^create_newsletter/$', views.create_newsletter, name='newsletter'),
 
-    url(r'^filter/$', views.filter_subscribers, name='filter_subscribers'),
+    # url(r'^filter/$', views.filter_subscribers, name='filter_subscribers'),
 
 ]

@@ -1,4 +1,6 @@
-<!-- Модальное окно для создания рассылки -->
+{% load static %}
+
+<!-- Ваш HTML-код, включая модальное окно и форму -->
 <div class="modal" id="createNewsletterModal">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -21,6 +23,7 @@
                         <label class="form-check-label" for="sendToAll">Отправить всем подписчикам</label>
                     </div>
                     <input type="hidden" id="sendToAllValue" name="sendToAllValue" value="false"> <!-- Скрытое поле -->
+
                     <div id="individualFields" class="mt-3" style="display: none;">
                         <div class="form-group">
                             <label for="first_name">Имя:</label>
@@ -31,8 +34,16 @@
                             <input type="text" class="form-control" id="last_name" name="last_name">
                         </div>
                         <div class="form-group">
-                            <label for="birthday">День рождения:</label>
-                            <input type="date" class="form-control" id="birthday" name="birthday">
+                            <label for="birthday_day">День рождения (день):</label>
+                            <input type="number" class="form-control" id="birthday_day" name="birthday_day" min="1" max="31">
+                        </div>
+                        <div class="form-group">
+                            <label for="birthday_month">День рождения (месяц):</label>
+                            <input type="number" class="form-control" id="birthday_month" name="birthday_month" min="1" max="12">
+                        </div>
+                        <div class="form-group">
+                            <label for="birthday_year">День рождения (год):</label>
+                            <input type="number" class="form-control" id="birthday_year" name="birthday_year" min="1900" max="2025">
                         </div>
                     </div>
                 </div>
@@ -44,3 +55,25 @@
         </div>
     </div>
 </div>
+
+<!-- Подключение jQuery и Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+<!-- Подключение JavaScript файла -->
+<script src="{% static 'js/ajax_script.js' %}"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#sendToAll').change(function () {
+            if ($(this).is(':checked')) {
+                $('#individualFields').hide(); // Скрыть поля для индивидуальных данных
+                $('#sendToAllValue').val('true'); // Установить значение для отправки всем
+            } else {
+                $('#individualFields').show(); // Показать поля для индивидуальных данных
+                $('#sendToAllValue').val('false'); // Установить значение для индивидуальной отправки
+            }
+        });
+    });
+</script>
+
